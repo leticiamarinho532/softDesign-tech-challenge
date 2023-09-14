@@ -1,0 +1,48 @@
+version: '3'
+services:
+  app:
+    container_name: app-softdesign-challenge
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile-backend
+    restart: on-failure:10
+    volumes:
+      - ./backend:/var/www
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+      dependency-manager:
+        condition: service_completed_successfully
+    networks:
+      - app-softdesign-challenge-network
+
+  dependency-manager:
+    container_name: app-softdesign-challenge-dependency-manager
+    build:
+      context: .
+      dockerfile: ./backend/DockerFile-backend-dependency-manager
+    command: composer install
+    volumes:
+      - ./backend:/var/www
+  
+  db:
+    container_name: db-softdesign-challenge
+    image: mysql:8
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: techchallenge
+      MYSQL_DATABASE: softdesign-challenge
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - app-softdesign-challenge-network
+
+networks:
+  app-softdesign-challenge-network:
+    driver: bridge
