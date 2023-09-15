@@ -31,9 +31,11 @@ class BookControllerTest extends TestCase
         // Assert
         $response->assertStatus(201)
             ->assertJsonStructure([
+                'id',
                 'title',
                 'author',
                 'page_numbers',
+                'created_at'
             ]);
     }
 
@@ -43,14 +45,31 @@ class BookControllerTest extends TestCase
         $response = $this->get('api/books?pagination=10');
 
         // Assert
-        dd($response);
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'data' => [
+                'current_page',
+                'data' => [[
+                    'id',
                     'title',
                     'author',
                     'page_numbers',
-                ]
+                    'created_at'
+                ]],
+                'first_page_url',
+                'from',
+                'last_page',
+                'last_page_url',
+                'links' => [[
+                    'url',
+                    'label',
+                    'active'
+                ]],
+                'next_page_url',
+                'path',
+                'per_page',
+                'prev_page_url',
+                'to',
+                'total'
             ]);
     }
 
@@ -62,9 +81,11 @@ class BookControllerTest extends TestCase
         // Assert
         $response->assertStatus(200)
             ->assertJsonStructure([
+                'id',
                 'title',
                 'author',
                 'page_numbers',
+                'created_at'
             ]);
     }
 
@@ -81,11 +102,13 @@ class BookControllerTest extends TestCase
         $response = $this->put('api/books/1', $body);
 
         // Assert
-        $response->assertStatus(201)
+        $response->assertStatus(200)
             ->assertJsonStructure([
+                'id',
                 'title',
                 'author',
                 'page_numbers',
+                'created_at'
             ]);
     }
 
