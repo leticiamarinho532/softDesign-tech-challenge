@@ -24,7 +24,8 @@ services:
       context: .
       dockerfile: ./frontend/Dockerfile-frontend
     volumes:
-      - ./src:/var/www/project/public/src
+      - ./frontend:/var/www/project
+      - /var/www/project/node_modules
     ports:
       - 3000:3000
     networks:
