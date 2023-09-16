@@ -2,13 +2,22 @@
 
 use App\Http\Controllers\{
     BookController, 
-    WeatherController
+    WeatherController,
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('books', BookController::class)
+Route::group([
+    'middleware' => 'api',
+    'namespace' => 'App\Http\Controllers'
+], function ($router) {
+    Route::post('login', 'AuthController@login');
+});
+
+Route::middleware('VerifyJwtMiddleware')->group(function () {
+    Route::resource('books', BookController::class)
     ->except(['create', 'edit']);
 
-Route::resource('weather', WeatherController::class)
-    ->only('show');
+    Route::resource('weather', WeatherController::class)
+        ->only('show');
+});
