@@ -18,6 +18,18 @@ services:
     networks:
       - app-softdesign-challenge-network
 
+  app-frontend:
+    container_name: app-frontend-softdesign-challenge
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile-frontend
+    volumes:
+      - ./src:/var/www/project/public/src
+    ports:
+      - 3000:3000
+    networks:
+      - app-softdesign-challenge-network
+
   dependency-manager:
     container_name: app-softdesign-challenge-dependency-manager
     build:
