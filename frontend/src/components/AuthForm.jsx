@@ -1,20 +1,33 @@
-import { useState } from "react";
+import { useState } from "react"
+import api from "../services/api"
+import { useNavigate } from "react-router-dom"
 
 export default function AuthForm({buttonName, action})
 {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const navigate = useNavigate();
 
     async function handleLogin(e)
     {
         e.preventDefault()
 
-        console.log('aqui')
+        let body = {
+            email,
+            password
+        }
 
         try {
-            const response = await AudioParam.post(action);
-        } catch {
+            const response = await api.post(action, body)
 
+            if (response.data.access_token) {
+                localStorage.setItem('token', response.data.access_token);
+
+                navigate('/dashboard')
+            }
+        } catch (err) {
+            console.log('cheguei no erro')
+            alert('Falha no login, tente novamente.')
         }
     }
 

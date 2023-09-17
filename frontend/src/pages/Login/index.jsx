@@ -7,7 +7,7 @@ export default function Login() {
 
             <AuthForm
                 buttonName={'Entrar'}
-                action={'api/login'}
+                action={'/login'}
             />
         </div>
     )
