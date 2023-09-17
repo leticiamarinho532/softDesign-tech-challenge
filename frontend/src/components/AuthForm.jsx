@@ -26,7 +26,6 @@ export default function AuthForm({buttonName, action})
                 navigate('/dashboard')
             }
         } catch (err) {
-            console.log('cheguei no erro')
             alert('Falha no login, tente novamente.')
         }
     }
